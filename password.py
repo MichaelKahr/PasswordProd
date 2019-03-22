@@ -4,7 +4,12 @@ from PasswordConsumer import PasswordConsumer
 from PasswordProducer import PasswordProducer
 
 myQueue = queue.Queue(maxsize=20)
-condition = threading.Condition()
+myCondition = threading.Condition()
 
-pwdProducer = PasswordProducer(queue=myQueue,condition=condition)
-pwdConsumer = PasswordConsumer(queue = myQueue,condition = condition)
+pwdProducer = PasswordProducer(queue=myQueue,condition=myCondition)
+pwdConsumer = PasswordConsumer(queue = myQueue,conditon = myCondition)
+
+pwdConsumer.start()
+pwdProducer.start()
+pwdConsumer.join()
+pwdProducer.join()
