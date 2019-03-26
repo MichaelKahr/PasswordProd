@@ -1,5 +1,5 @@
 import unittest
-from pwdProducer import Password
+from PasswordProducer import Password
 
 class test_Password(unittest.TestCase):
 
