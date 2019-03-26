@@ -8,8 +8,8 @@ class PasswordConsumer(threading.Thread):
         self.conditon = conditon
 
     def run(self):
-        pw_file = open("list.txt","r")
         while True:
+            pw_file = open("list.txt","r")
             pwd = ""
             self.conditon.acquire()
             try:
