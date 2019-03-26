@@ -6,9 +6,10 @@ class Password():
         self.password = password
 
     def check(self,pwd):
-        return self.password==pwd
-
-
+        #print("in check method: *"+self.password+"* Password to compare to:*"+pwd+"*")
+        if self.password==pwd:
+            return True
+        return False
 
 class PasswordProducer(threading.Thread):
     def __init__(self,queue,condition):
@@ -17,13 +18,17 @@ class PasswordProducer(threading.Thread):
         self.condition = condition
 
     def run(self):
-        password = input("Please enter the password:")
-        pwd = Password(password)
-        self.condition.acquire()
-        try:
-            self.queue.put(pwd,block=False)
-            self.condition.notify()
-        except queue.Full:
-            self.condition.wait()
+        while True:
+            password = input("")
+            pwd = Password(password)
+            self.condition.acquire()
+            try:
+                self.queue.put(pwd,block=False)
+                self.condition.notify()
+                #print("condition notified")
+            except queue.Full:
+                self.condition.wait()
+                #print("condition waiting")
 
-        self.condition.release()
+            self.condition.release()
+            #print("conditin released")

@@ -8,20 +8,23 @@ class PasswordConsumer(threading.Thread):
         self.conditon = conditon
 
     def run(self):
-        pw_file = open("list.txt","r").read()
+        pw_file = open("list.txt","r")
         while True:
+            pwd = ""
             self.conditon.acquire()
             try:
                 pwd = self.queue.get(block=False)
                 self.conditon.notify()
             except queue.Empty:
-                print("exception")
+                #print("consumer waiting")
                 self.conditon.wait()
+                #print("consumer waiting")
             self.conditon.release()
-
-            for x in pw_file:
-                res = pwd.check(x)
-                if res:
-                    print("Password found")
-                break
+            #print("condition released")
+            if pwd != "":
+                for x in pw_file:
+                    res = pwd.check(x.split("\n")[0])
+                    if res:
+                        print("Password found")
+                        break
 
